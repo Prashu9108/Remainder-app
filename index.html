@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reminder App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f3f3f3;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"], textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .reminder-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        .reminder-item h3 {
+            margin-top: 0;
+        }
+        .delete-btn {
+            background-color: #dc3545;
+        }
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Reminder App</h1>
+        <form id="reminder-form">
+            <input type="text" id="title" placeholder="Title" required>
+            <textarea id="description" placeholder="Description" required></textarea>
+            <input type="datetime-local" id="datetime" required>
+            <button type="submit">Add Reminder</button>
+        </form>
+        <div id="reminder-list"></div>
+    </div>
+
+    <script>
+        const reminderForm = document.getElementById('reminder-form');
+        const reminderList = document.getElementById('reminder-list');
+
+        reminderForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const title = document.getElementById('title').value;
+            const description = document.getElementById('description').value;
+            const datetime = document.getElementById('datetime').value;
+
+            if (!title || !description || !datetime) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            const reminderItem = document.createElement('div');
+            reminderItem.classList.add('reminder-item');
+
+            reminderItem.innerHTML = `
+                <h3>${title}</h3>
+                <p>${description}</p>
+                <p>${datetime}</p>
+                <button class="delete-btn" onclick="deleteReminder(this)">Delete</button>
+            `;
+
+            reminderList.appendChild(reminderItem);
+
+            reminderForm.reset();
+        });
+
+        function deleteReminder(button) {
+            const reminderItem = button.parentElement;
+            reminderList.removeChild(reminderItem);
+        }
+    </script>
+</body>
+</html>
